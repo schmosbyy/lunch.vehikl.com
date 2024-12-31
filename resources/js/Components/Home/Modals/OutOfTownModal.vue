@@ -1,0 +1,89 @@
+<template>
+  <Modal 
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
+    max-width="sm:max-w-4xl"
+  >
+    <template #header>
+      <ModalHeader
+        icon="home"
+        title="Out of Town Lunch Order"
+        subtitle="Let us know your lunch preferences while you're away!"
+      />
+    </template>
+
+    <div class="w-full overflow-hidden rounded-xl border border-gray-100 shadow-sm" style="height: 80vh;">
+      <iframe 
+        ref="formIframe"
+        :src="`https://docs.google.com/forms/d/e/1FAIpQLSdZQCkmwCXexF_F-7r54F05HU8VcHea7OLppKlThWt-KdMTmA/viewform?embedded=true&usp=pp_url&entry.1234=${userEmail || ''}`" 
+        class="w-full h-full"
+        style="width: 100%; min-width: 100%;"
+        @load="handleIframeLoad"
+        frameborder="0" 
+        marginheight="0" 
+        marginwidth="0">
+        Loading...
+      </iframe>
+    </div>
+
+    <div class="mt-4 flex justify-end">
+      <Button 
+        type="button"
+        variant="secondary"
+        @click="$emit('update:modelValue', false)"
+        class="w-full sm:w-auto"
+        icon="close"
+      >
+        Cancel
+      </Button>
+      <Button 
+        type="submit"
+        variant="primary"
+        class="w-full sm:w-auto"
+        icon="home"
+      >
+        Submit
+      </Button>
+    </div>
+  </Modal>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import Modal from '@/Components/UI/Modal.vue'
+import ModalHeader from '@/Components/UI/ModalHeader.vue'
+import { router } from '@inertiajs/vue3'
+
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    required: true
+  },
+  userEmail: {
+    type: String,
+    default: ''
+  }
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const formIframe = ref(null)
+let formLoaded = false
+
+function handleIframeLoad() {
+  if (!formLoaded) {
+    formLoaded = true
+    return
+  }
+  
+  emit('update:modelValue', false)
+  
+  router.post('/rsvp/out-of-town', {}, {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => {
+      router.reload()
+    }
+  })
+}
+</script> 
