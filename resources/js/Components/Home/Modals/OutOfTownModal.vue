@@ -34,7 +34,7 @@
         class="w-full sm:w-auto"
         icon="close"
       >
-        Cancel
+        Close Modal
       </Button>
       <Button
         type="submit"
@@ -42,7 +42,7 @@
         class="w-full sm:w-auto"
         icon="home"
       >
-        Submit
+        Mark form as Submitted
       </Button>
     </div>
   </Modal>
@@ -77,14 +77,22 @@ function handleIframeLoad() {
     return
   }
 
-  emit('update:modelValue', false)
+  // Listen for messages from the Google Form
+  window.addEventListener('message', (event) => {
+    if (event.origin === 'https://docs.google.com') { // Ensure the message is from Google Forms
+      if (event.data === 'success') { // Check for success message
+        emit('update:modelValue', false)
 
-  router.post('/rsvp/out-of-town', {}, {
-    preserveScroll: true,
-    preserveState: true,
-    onSuccess: () => {
-      router.reload()
+        // Send the response to the Laravel endpoint
+        router.post('/rsvp/out-of-town', {}, {
+          preserveScroll: true,
+          preserveState: true,
+          onSuccess: () => {
+            router.reload()
+          }
+        })
+      }
     }
-  })
+  });
 }
 </script>
