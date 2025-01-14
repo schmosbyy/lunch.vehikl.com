@@ -45,19 +45,6 @@
 
               <div v-if="showProfileDropdown"
                    class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-lg py-1 z-10 border border-gray-100 dark:border-gray-700 backdrop-blur-sm">
-                <!-- Game Challenges Button (Mobile) -->
-                <div v-if="$page.props.isLoggedIn" class="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                  <Button
-                    variant="secondary"
-                    @click="toggleGameChallenges(); showProfileDropdown = false"
-                    class="w-full text-left flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 hover:text-[#e26700] dark:hover:text-[#e26700] !border-0"
-                    :class="{ '!text-[#e26700]': showGameChallenges }"
-                    icon="puzzle"
-                  >
-                    Game Challenges
-                  </Button>
-                </div>
-
                 <!-- GitHub Profile Info -->
                 <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
                   <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-3">Your GitHub Profile</h3>
