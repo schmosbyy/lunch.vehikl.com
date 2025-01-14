@@ -18,10 +18,7 @@
         :src="`https://docs.google.com/forms/d/e/1FAIpQLSdZQCkmwCXexF_F-7r54F05HU8VcHea7OLppKlThWt-KdMTmA/viewform?embedded=true&usp=pp_url&entry.1234=${userEmail || ''}`"
         class="w-full h-full"
         style="width: 100%; min-width: 100%;"
-        @load="handleIframeLoad"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0">
+        @load="handleIframeLoad">
         Loading...
       </iframe>
     </div>

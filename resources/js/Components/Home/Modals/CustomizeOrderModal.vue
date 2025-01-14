@@ -17,11 +17,7 @@
         ref="formIframe"
         :src="`https://docs.google.com/forms/d/e/1FAIpQLSdZQCkmwCXexF_F-7r54F05HU8VcHea7OLppKlThWt-KdMTmA/viewform?embedded=true&usp=pp_url&entry.1234=${userEmail || ''}`"
         class="w-full h-full"
-        style="width: 100%; min-width: 100%;"
-        @load="handleIframeLoad"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0">
+        style="width: 100%; min-width: 100%;">
         Loading...
       </iframe>
     </div>
@@ -57,33 +53,6 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:modelValue'])
-
 const formIframe = ref(null)
-let formLoaded = false
 
-function handleIframeLoad() {
-  if (!formLoaded) {
-    formLoaded = true
-    return
-  }
-
-  // Listen for messages from the Google Form
-  window.addEventListener('message', (event) => {
-    if (event.origin === 'https://docs.google.com') { // Ensure the message is from Google Forms
-      if (event.data === 'success') { // Check for success message
-        emit('update:modelValue', false)
-
-        // Send the response to the Laravel endpoint
-        router.post('/rsvp/out-of-town', {}, {
-          preserveScroll: true,
-          preserveState: true,
-          onSuccess: () => {
-            router.reload()
-          }
-        })
-      }
-    }
-  });
-}
 </script>
