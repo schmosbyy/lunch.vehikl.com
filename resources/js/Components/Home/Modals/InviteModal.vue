@@ -119,7 +119,7 @@ interface Rsvp {
     id: number
     name: string
     avatar_url: string
-    github_username: string
+    github_nickname: string
   }
 }
 
@@ -138,7 +138,7 @@ const searchQuery = ref('')
 const invitedMembers = ref<Member[]>([])
 
 const existingRsvpUserIds = computed(() => {
-  return props.rsvpList.map(rsvp => rsvp.user.github_username)
+  return props.rsvpList.map(rsvp => rsvp.user.github_nickname)
 })
 
 const filteredMembers = computed(() => {
@@ -167,7 +167,7 @@ const filteredMembers = computed(() => {
 
 function inviteMember(member: Member) {
   router.post('/invite', {
-    github_username: member.login
+    github_nickname: member.login
   }, {
     preserveScroll: true,
     preserveState: true,

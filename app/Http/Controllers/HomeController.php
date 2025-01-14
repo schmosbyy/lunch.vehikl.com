@@ -52,15 +52,15 @@ class HomeController extends Controller
 
                 // Get all users from the database
                 $dbUsers = \App\Models\User::query()
-                    ->whereNotNull('github_username')
-                    ->select('id', 'name', 'avatar_url', 'github_username')
+                    ->whereNotNull('github_nickname')
+                    ->select('id', 'name', 'avatar_url', 'github_nickname')
                     ->get();
 
                 $dbUsers = $dbUsers->map(function ($user) {
                     return [
                         'id' => $user->id,
                         'name' => $user->name,
-                        'login' => $user->github_username ?? $user->name,  // Use name as login if no GitHub username
+                        'login' => $user->github_nickname ?? $user->name,
                         'avatar_url' => $user->avatar_url,
                     ];
                 })->toArray();

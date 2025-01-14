@@ -16,7 +16,7 @@ class InviteController extends Controller
     {
         $request->validate([
             'github_id' => 'required|integer',
-            'github_username' => 'required|string',
+            'github_nickname' => 'required|string',
         ]);
 
         try {
@@ -26,14 +26,14 @@ class InviteController extends Controller
             $invitation = RsvpInvite::create([
                 'inviter_id' => auth()->id(),
                 'invitee_github_id' => $request->github_id,
-                'invitee_github_username' => $request->github_username,
+                'invitee_github_username' => $request->github_nickname,
                 'lunch_date' => $nextFriday->format('Y-m-d'),
             ]);
 
-            Mail::to($request->github_username . '@github.com')
+            Mail::to($request->github_nickname . '@github.com')
                 ->queue(new RsvpInvitation(
                     inviterName: auth()->user()->name,
-                    inviteeUsername: $request->github_username,
+                    inviteeUsername: $request->github_nickname,
                     lunchDate: $nextFriday->toDateString(),
                     lunchDateFormatted: $nextFriday->format('l, F j, Y'),
                     invitationId: $invitation->id,
@@ -42,7 +42,7 @@ class InviteController extends Controller
 
             Log::info('RSVP invitation sent', [
                 'inviter' => auth()->user()->name,
-                'invitee' => $request->github_username,
+                'invitee' => $request->github_nickname,
                 'lunch_date' => $nextFriday->toDateString()
             ]);
 
@@ -50,7 +50,7 @@ class InviteController extends Controller
         } catch (\Exception $e) {
             Log::error('Failed to send RSVP invitation', [
                 'error' => $e->getMessage(),
-                'invitee' => $request->github_username
+                'invitee' => $request->github_nickname
             ]);
 
             return back()->with('error', 'Failed to send invitation. Please try again.');
