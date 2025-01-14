@@ -12,8 +12,15 @@
           A confirmation email has been sent to {{ user?.email }}
         </p>
         <div class="mt-6 flex flex-wrap items-center gap-2">
-          <Button 
-            variant="secondary" 
+            <Button
+                variant="secondary"
+                @click="$emit('show-order-modal')"
+                icon="food"
+            >
+                Customize Order
+            </Button>
+          <Button
+            variant="secondary"
             @click="$emit('resend-email')"
             icon="mail"
           >
@@ -21,9 +28,9 @@
           </Button>
 
           <form @submit.prevent="$emit('cancel-rsvp')" class="inline">
-            <Button 
-              type="submit" 
-              variant="secondary" 
+            <Button
+              type="submit"
+              variant="secondary"
               class="!text-red-600 !border-red-600 hover:!bg-red-50"
               icon="close"
             >
@@ -31,7 +38,7 @@
             </Button>
           </form>
 
-          <Button 
+          <Button
             variant="secondary"
             tag="a"
             :href="calendarUrl"
@@ -41,7 +48,7 @@
             + to Calendar
           </Button>
 
-          <Button 
+          <Button
             v-if="isVehiklMember"
             variant="secondary"
             @click="$emit('show-invite-modal')"
@@ -49,8 +56,7 @@
           >
             Invite Others
           </Button>
-
-          <Button 
+          <Button
             v-if="!hasRideRequest"
             variant="secondary"
             @click="$emit('show-ride-request-modal')"
@@ -59,7 +65,7 @@
             Ask for a Ride
           </Button>
 
-          <Button 
+          <Button
             variant="secondary"
             @click="$emit('toggle-game-challenges')"
             icon="puzzle"
@@ -120,4 +126,4 @@ defineEmits([
   70% { opacity: 1; }
   100% { opacity: 0; visibility: hidden; }
 }
-</style> 
+</style>

@@ -4,7 +4,7 @@
     <p class="text-gray-600 dark:text-gray-300 mb-6 text-lg">
       Next lunch is on <span class="font-medium text-gray-900 dark:text-white">{{ nextFriday?.formatted }}</span>
     </p>
-    
+
     <RsvpConfirmation
       v-if="hasRsvped && !hasSubmittedOutOfTownForm && currentUserRsvp?.status === 'attending'"
       :user="user"
@@ -13,12 +13,13 @@
       @cancel-rsvp="cancelRsvp"
       @toggle-game-challenges="$emit('toggle-game-challenges')"
       @show-invite-modal="showInviteModal = true"
+      @show-order-modal="showOrderModal = true"
       @show-ride-request-modal="showRideRequestModal = true"
       :has-ride-request="hasRideRequest"
       :is-vehikl-member="isVehiklMember"
       :calendar-url="generateCalendarUrl"
     />
-    
+
     <RsvpForm
       v-else
       :has-submitted-out-of-town-form="hasSubmittedOutOfTownForm"
@@ -35,14 +36,16 @@
       v-model="showOutOfTownModal"
       :user-email="user?.email"
     />
-
+      <OutOfTownModal
+          v-model="showOrderModal"
+          :user-email="user?.email"
+      />
     <InviteModal
       v-model="showInviteModal"
       :organization-members="organizationMembers"
       :rsvp-list="rsvpList"
       :current-user-id="user?.id"
     />
-
     <RideRequestModal
       v-model="showRideRequestModal"
     />
@@ -90,6 +93,7 @@ const emit = defineEmits(['toggle-game-challenges'])
 const showResendMessage = ref(false)
 const showOutOfTownModal = ref(false)
 const showInviteModal = ref(false)
+const showOrderModal = ref(false)
 const showRideRequestModal = ref(false)
 
 const currentUserRsvp = computed(() => {
@@ -124,12 +128,12 @@ const generateCalendarUrl = computed(() => {
 })
 
 const isRsvpDisabled = computed(() => {
-  return Boolean(currentUserRsvp.value && 
+  return Boolean(currentUserRsvp.value &&
     (currentUserRsvp.value.status === 'out_of_town' || currentUserRsvp.value.status === 'attending'))
 })
 
 const isOutOfTownDisabled = computed(() => {
-  return Boolean(currentUserRsvp.value && 
+  return Boolean(currentUserRsvp.value &&
     (currentUserRsvp.value.status === 'out_of_town' || currentUserRsvp.value.status === 'attending'))
 })
 
