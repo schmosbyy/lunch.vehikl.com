@@ -41,7 +41,7 @@
             v-if="isVehiklMember"
             variant="secondary"
             @click="$emit('show-invite-modal')"
-            icon="plus"
+            icon="people"
           >
             Invite Others
           </Button>

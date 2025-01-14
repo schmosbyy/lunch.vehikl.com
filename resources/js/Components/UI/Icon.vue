@@ -112,6 +112,13 @@
           stroke-linejoin="round"
           d="M4 6h16M6 6v12h12V6M8 18h8a2 2 0 002-2v-6a2 2 0 00-2-2H8a2 2 0 00-2 2v6a2 2 0 002 2z"
       />
+      <path
+          v-else-if="name === 'people'"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 2C10.343 2 9 3.343 9 5s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM6 10c-1.104 0-2 .896-2 2v6h12v-6c0-1.104-.896-2-2-2H6z"
+      />
+
   </svg>
 </template>
 
@@ -137,7 +144,8 @@ const props = defineProps({
       'moon',
       'chevron-down',
       'logout',
-        'food'
+        'food',
+        'people',
     ].includes(value)
   },
   size: {
