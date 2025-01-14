@@ -18,6 +18,12 @@
           </div>
 
           <div class="flex items-center">
+            <NotificationBell
+              v-if="$page.props.isLoggedIn"
+              :challenges="$page.props.gameChallenges || []"
+              class="mr-4"
+            />
+
             <!-- Profile Dropdown -->
             <div class="relative">
               <Button
@@ -134,9 +140,10 @@
 <script setup lang="ts">
 import { router, Link } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
-import FloatingActionButton from '../Components/FloatingActionButton.vue'
-import Button from '@/Components/UI/Button.vue'
 import Alert from '@/Components/UI/Alert.vue'
+import Button from '@/Components/UI/Button.vue'
+import NotificationBell from '@/Components/UI/NotificationBell.vue'
+import FloatingActionButton from '../Components/FloatingActionButton.vue'
 
 // Add NavLink component
 const NavLink = Link

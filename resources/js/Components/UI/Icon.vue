@@ -92,7 +92,7 @@
       v-else-if="name === 'moon'"
       stroke-linecap="round"
       stroke-linejoin="round"
-      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0112 21a9.003 9.003 0 008.354-5.646z"
     />
     <path
       v-else-if="name === 'chevron-down'"
@@ -106,18 +106,24 @@
       stroke-linejoin="round"
       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
     />
-      <path
-          v-else-if="name === 'food'"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M4 6h16M6 6v12h12V6M8 18h8a2 2 0 002-2v-6a2 2 0 00-2-2H8a2 2 0 00-2 2v6a2 2 0 002 2z"
-      />
-      <path
-          v-else-if="name === 'people'"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 2C10.343 2 9 3.343 9 5s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM6 10c-1.104 0-2 .896-2 2v6h12v-6c0-1.104-.896-2-2-2H6z"
-      />
+    <path
+      v-else-if="name === 'bell'"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+    />
+    <path
+      v-else-if="name === 'food'"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M4 6h16M6 6v12h12V6M8 18h8a2 2 0 002-2v-6a2 2 0 00-2-2H8a2 2 0 00-2 2v6a2 2 0 002 2z"
+    />
+    <path
+      v-else-if="name === 'people'"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M12 2C10.343 2 9 3.343 9 5s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM6 10c-1.104 0-2 .896-2 2v6h12v-6c0-1.104-.896-2-2-2H6z"
+    />
 
   </svg>
 </template>
@@ -135,17 +141,14 @@ const props = defineProps({
       'calendar',
       'mail',
       'arrow-left',
-      'puzzle',
-      'arrows-right-left',
-      'warning',
-      'info',
-      'refresh',
       'sun',
       'moon',
       'chevron-down',
       'logout',
-        'food',
-        'people',
+      'bell',
+      'food',
+      'people',
+      'puzzle'
     ].includes(value)
   },
   size: {

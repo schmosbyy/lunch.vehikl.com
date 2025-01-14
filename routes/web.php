@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     // Game Challenge Routes
     Route::post('/game-challenge', [GameChallengeController::class, 'store'])->name('game.challenge');
     Route::put('/game-challenge/{gameChallenge}', [GameChallengeController::class, 'update'])->name('game.respond');
+    Route::put('/game-challenge/{gameChallenge}/read', [GameChallengeController::class, 'markAsRead'])->name('game.read');
 
     // Invite Routes
     Route::post('/invite', [InviteController::class, 'store'])->name('invite.store');

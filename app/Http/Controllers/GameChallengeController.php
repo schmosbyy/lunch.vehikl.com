@@ -50,10 +50,17 @@ class GameChallengeController extends Controller
                 $validated['status']
             );
 
-            return Redirect::back()->with([
-                'success' => 'Challenge ' . $validated['status'] . ' successfully!',
-                'challenges' => $this->gameChallengeService->getUserChallenges(Auth::user()),
-            ]);
+            return Redirect::back()->with('success', 'Game challenge updated successfully!');
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function markAsRead(GameChallenge $gameChallenge): RedirectResponse
+    {
+        try {
+            $gameChallenge->update(['read' => true]);
+            return Redirect::back();
         } catch (\Exception $e) {
             return Redirect::back()->with('error', $e->getMessage());
         }

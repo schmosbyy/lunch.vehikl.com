@@ -23,14 +23,21 @@
       </iframe>
     </div>
 
-    <div class="mt-4 flex justify-end">
+    <div class="mt-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <Icon name="info" class="text-gray-400" />
+        <p class="text-sm text-gray-600 font-medium">
+          Please submit the Google Form first, then click "Submit Form"
+        </p>
+      </div>
       <Button
         type="submit"
         variant="primary"
         class="w-full sm:w-auto"
         icon="home"
+        @click="handleFormSubmit"
       >
-        Mark form as Submitted
+        Submit Form
       </Button>
     </div>
   </Modal>
@@ -41,6 +48,7 @@ import { ref } from 'vue'
 import Modal from "../../UI/Modal.vue";
 import ModalHeader from "../../UI/ModalHeader.vue";
 import Button from "../../UI/Button.vue";
+import Icon from "../../UI/Icon.vue"; // Added import statement for Icon component
 import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
@@ -57,30 +65,21 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const formIframe = ref(null)
-let formLoaded = false
+const formLoaded = ref(false)
 
 function handleIframeLoad() {
-  if (!formLoaded) {
-    formLoaded = true
-    return
-  }
+  formLoaded.value = true
+}
 
-  // Listen for messages from the Google Form
-  window.addEventListener('message', (event) => {
-    if (event.origin === 'https://docs.google.com') { // Ensure the message is from Google Forms
-      if (event.data === 'success') { // Check for success message
-        emit('update:modelValue', false)
-
-        // Send the response to the Laravel endpoint
-        router.post('/rsvp/out-of-town', {}, {
-          preserveScroll: true,
-          preserveState: true,
-          onSuccess: () => {
-            router.reload()
-          }
-        })
-      }
+function handleFormSubmit() {
+  // Send the response to the Laravel endpoint
+  router.post('/rsvp/out-of-town', {}, {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => {
+      emit('update:modelValue', false) // Close the modal
+      router.reload() // Refresh the page to show updated status
     }
-  });
+  })
 }
 </script>

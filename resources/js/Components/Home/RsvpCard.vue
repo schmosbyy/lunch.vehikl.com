@@ -1,5 +1,13 @@
 <template>
   <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700 shadow-sm">
+    <Alert
+      v-if="showResetAlert"
+      variant="info"
+      class="mb-4"
+    >
+      Please notify Kelly that you've cancelled your out-of-town lunch order.
+    </Alert>
+
     <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Friday Lunch RSVP</h3>
     <p class="text-gray-600 dark:text-gray-300 mb-6 text-lg">
       Next lunch is on <span class="font-medium text-gray-900 dark:text-white">{{ nextFriday?.formatted }}</span>
@@ -36,10 +44,10 @@
       v-model="showOutOfTownModal"
       :user-email="user?.email"
     />
-      <CustomizeOrderModal
-          v-model="showOrderModal"
-          :user-email="user?.email"
-      />
+    <CustomizeOrderModal
+      v-model="showOrderModal"
+      :user-email="user?.email"
+    />
     <InviteModal
       v-model="showInviteModal"
       :organization-members="organizationMembers"
@@ -61,6 +69,7 @@ import InviteModal from './Modals/InviteModal.vue'
 import RideRequestModal from './Modals/RideRequestModal.vue'
 import { router } from '@inertiajs/vue3'
 import CustomizeOrderModal from "./Modals/CustomizeOrderModal.vue";
+import Alert from '@/Components/UI/Alert.vue';
 
 const props = defineProps({
   user: {
@@ -96,6 +105,7 @@ const showOutOfTownModal = ref(false)
 const showInviteModal = ref(false)
 const showOrderModal = ref(false)
 const showRideRequestModal = ref(false)
+const showResetAlert = ref(false)
 
 const currentUserRsvp = computed(() => {
   return props.rsvpList?.find(rsvp => rsvp.user?.id === props.user?.id)
@@ -179,6 +189,13 @@ function cancelRsvp() {
 }
 
 function resetOutOfTownForm() {
+  showResetAlert.value = true
+  
+  // Hide alert after 5 seconds
+  setTimeout(() => {
+    showResetAlert.value = false
+  }, 5000)
+  
   router.post('/rsvp/cancel', {}, {
     preserveScroll: true,
     preserveState: true,

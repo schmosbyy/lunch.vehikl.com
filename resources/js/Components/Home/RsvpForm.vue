@@ -26,6 +26,7 @@
       </Button>
       
       <Button 
+        v-if="!hasSubmittedOutOfTownForm"
         type="button"
         :disabled="isOutOfTownDisabled"
         :variant="isOutOfTownDisabled ? 'disabled' : 'primary'"

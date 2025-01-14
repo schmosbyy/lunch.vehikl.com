@@ -38,6 +38,7 @@ class HomeController extends Controller
                     ->get(),
                 'received' => GameChallenge::with(['challenged', 'challenger'])
                     ->where('challenged_id', $user->id)
+                    ->where('status', 'pending')
                     ->whereHas('rsvp', function ($query) use ($nextFriday) {
                         $query->where('lunch_date', $nextFriday->format('Y-m-d'));
                     })
@@ -103,16 +104,30 @@ class HomeController extends Controller
         return Inertia::render('Home', [
             'isLoggedIn' => auth()->check(),
             'user' => $user,
+            'rsvp' => $rsvp,
+            'rsvpList' => $rsvpList,
             'nextFriday' => [
                 'date' => $nextFriday->format('Y-m-d'),
                 'formatted' => $nextFriday->format('l, F j, Y'),
             ],
             'hasRsvped' => !is_null($rsvp),
-            'rsvpList' => $rsvpList,
             'challenges' => $challenges,
             'games' => config('games.available_games'),
             'organizationMembers' => $organizationMembers,
             'rideRequests' => $rideRequests,
+            'gameChallenges' => $user ? $challenges['received']->map(function ($challenge) {
+                $game = collect(config('games.available_games'))->firstWhere('id', $challenge->game_type);
+                return [
+                    'id' => $challenge->id,
+                    'game_type' => $game['name'] ?? $challenge->game_type,
+                    'created_at' => $challenge->created_at->diffForHumans(),
+                    'read' => $challenge->read,
+                    'challenger' => [
+                        'name' => $challenge->challenger->name,
+                        'avatar_url' => $challenge->challenger->avatar_url,
+                    ],
+                ];
+            }) : []
         ]);
     }
 
