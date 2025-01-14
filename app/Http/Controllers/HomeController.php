@@ -7,19 +7,13 @@ use App\Models\GameChallenge;
 use App\Models\RideRequest;
 use App\Services\GithubOrganizationService;
 use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function __construct(
-
-    ) {
-
-    }
-
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         $nextFriday = Carbon::now()->next('Friday');
         $user = auth()->user();
