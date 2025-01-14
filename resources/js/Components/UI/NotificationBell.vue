@@ -95,15 +95,17 @@ interface Challenge {
   read: boolean
 }
 
-const props = defineProps<{
-  challenges: Challenge[]
-}>()
+const props = withDefaults(defineProps<{
+  notificationChallenges: Challenge[]
+}>(), {
+  notificationChallenges: () => []
+})
 
 const localChallenges = ref<Challenge[]>([])
 
 // Initialize local challenges from props
-watch(() => props.challenges, (newChallenges) => {
-  localChallenges.value = [...newChallenges]
+watch(() => props.notificationChallenges, (newChallenges) => {
+  localChallenges.value = Array.isArray(newChallenges) ? [...newChallenges] : []
 }, { immediate: true })
 
 const isOpen = ref(false)

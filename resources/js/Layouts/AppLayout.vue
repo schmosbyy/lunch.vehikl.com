@@ -20,7 +20,7 @@
           <div class="flex items-center">
             <NotificationBell
               v-if="$page.props.isLoggedIn"
-              :challenges="$page.props.gameChallenges || []"
+              :notification-challenges="$page.props.notificationChallenges || []"
               class="mr-4"
             />
 

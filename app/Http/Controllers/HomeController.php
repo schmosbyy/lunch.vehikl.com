@@ -22,13 +22,23 @@ class HomeController extends Controller
         $challenges = null;
         $organizationMembers = [];
         $rideRequests = [];
+        $notificationChallenges = collect();
 
         if ($user) {
             $rsvp = $user->rsvps()
                 ->where('lunch_date', $nextFriday->format('Y-m-d'))
                 ->first();
 
-            // Get user's game challenges
+            // Get user's game challenges for notifications (only pending)
+            $notificationChallenges = GameChallenge::with(['challenged', 'challenger'])
+                ->where('challenged_id', $user->id)
+                ->where('status', 'pending')
+                ->whereHas('rsvp', function ($query) use ($nextFriday) {
+                    $query->where('lunch_date', $nextFriday->format('Y-m-d'));
+                })
+                ->get();
+
+            // Get user's game challenges for the list (both pending and accepted)
             $challenges = [
                 'sent' => GameChallenge::with(['challenged', 'challenger'])
                     ->where('challenger_id', $user->id)
@@ -38,7 +48,7 @@ class HomeController extends Controller
                     ->get(),
                 'received' => GameChallenge::with(['challenged', 'challenger'])
                     ->where('challenged_id', $user->id)
-                    ->where('status', 'pending')
+                    ->whereIn('status', ['pending', 'accepted'])
                     ->whereHas('rsvp', function ($query) use ($nextFriday) {
                         $query->where('lunch_date', $nextFriday->format('Y-m-d'));
                     })
@@ -127,6 +137,7 @@ class HomeController extends Controller
             ],
             'hasRsvped' => !is_null($rsvp),
             'challenges' => $challenges,
+            'notificationChallenges' => $notificationChallenges,
             'games' => config('games.available_games'),
             'organizationMembers' => $organizationMembers,
             'rideRequests' => $rideRequests,
