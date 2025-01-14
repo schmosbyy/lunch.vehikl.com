@@ -20,14 +20,14 @@
           <div class="flex items-center">
             <!-- Profile Dropdown -->
             <div class="relative">
-              <Button 
+              <Button
                 v-if="$page.props.isLoggedIn"
                 variant="secondary"
                 @click="showProfileDropdown = !showProfileDropdown"
                 class="flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl px-3 py-2 !border-0"
               >
-                <img 
-                  :src="$page.props.user?.avatar_url" 
+                <img
+                  :src="$page.props.user?.avatar_url"
                   :alt="$page.props.user?.name"
                   class="h-9 w-9 rounded-full ring-2 ring-white"
                 >
@@ -37,11 +37,11 @@
                 </svg>
               </Button>
 
-              <div v-if="showProfileDropdown" 
+              <div v-if="showProfileDropdown"
                    class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-lg py-1 z-10 border border-gray-100 dark:border-gray-700 backdrop-blur-sm">
                 <!-- Game Challenges Button (Mobile) -->
                 <div v-if="$page.props.isLoggedIn" class="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                  <Button 
+                  <Button
                     variant="secondary"
                     @click="toggleGameChallenges(); showProfileDropdown = false"
                     class="w-full text-left flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 hover:text-[#e26700] dark:hover:text-[#e26700] !border-0"
@@ -61,8 +61,8 @@
                     <div v-if="$page.props.user?.github_organizations?.length">
                       <p class="font-medium mb-2">Organizations:</p>
                       <div class="flex flex-wrap gap-2">
-                        <Link 
-                          v-for="org in $page.props.user?.github_organizations" 
+                        <Link
+                          v-for="org in $page.props.user?.github_organizations"
                           :key="org.id"
                           :href="'https://github.com/' + org.login"
                           target="_blank"
@@ -78,7 +78,7 @@
 
                 <!-- Dark Mode Toggle -->
                 <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                  <Button 
+                  <Button
                     variant="secondary"
                     @click="toggleDarkMode"
                     class="w-full text-left flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white !border-0"
@@ -90,7 +90,7 @@
 
                 <!-- Logout -->
                 <div>
-                  <Button 
+                  <Button
                     variant="secondary"
                     @click="logout"
                     class="w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/50 !border-0"
@@ -120,14 +120,14 @@
     <main>
       <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <slot 
-            :show-game-challenges="showGameChallenges" 
+          <slot
+            :show-game-challenges="showGameChallenges"
             :toggle-game-challenges="toggleGameChallenges"
           />
         </div>
       </div>
     </main>
-    <FloatingActionButton />
+    <FloatingActionButton v-if="$page.props.isLoggedIn" />
   </div>
 </template>
 
@@ -208,4 +208,4 @@ const logout = () => {
 const route = (name: string) => {
   return '/home'
 }
-</script> 
+</script>
