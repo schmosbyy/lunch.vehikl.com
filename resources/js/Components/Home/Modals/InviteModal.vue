@@ -22,7 +22,7 @@
           <div v-if="filteredMembers.length > 0"
                class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-100 max-h-[300px] overflow-y-auto divide-y divide-gray-100 z-[100]">
             <div v-for="member in filteredMembers"
-                 :key="member.id"
+                 :key="member.login"
                  class="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer transition duration-150"
                  @click="inviteMember(member)">
               <div class="flex items-center gap-4 min-w-0">
@@ -56,7 +56,7 @@
           <h4 class="text-base font-medium text-gray-900 mb-4">Invited Members</h4>
           <div class="space-y-3">
             <div v-for="member in invitedMembers"
-                 :key="member.id"
+                 :key="member.login"
                  class="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-100">
               <div class="flex items-center gap-4 min-w-0">
                 <Avatar
@@ -100,25 +100,27 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { router } from '@inertiajs/vue3'
 import Modal from "../../UI/Modal.vue";
 import ModalHeader from "../../UI/ModalHeader.vue";
 import Button from "../../UI/Button.vue";
 import Avatar from "../../UI/Avatar.vue";
-import { router } from '@inertiajs/vue3'
 
 interface Member {
-  id: number
-  name: string
+  id?: number
   login: string
+  name: string
   avatar_url: string
-  github_organizations?: Array<{ login: string }>
 }
 
 interface Rsvp {
+  id: number
   user: {
     id: number
+    name: string
+    avatar_url: string
+    github_username: string
   }
-  status: string
 }
 
 const props = defineProps<{
@@ -135,30 +137,36 @@ const emit = defineEmits<{
 const searchQuery = ref('')
 const invitedMembers = ref<Member[]>([])
 
+const existingRsvpUserIds = computed(() => {
+  return props.rsvpList.map(rsvp => rsvp.user.github_username)
+})
+
 const filteredMembers = computed(() => {
-  if (!searchQuery.value.trim()) {
-    return []
-  }
+  const query = searchQuery.value.toLowerCase()
+  
+  return props.organizationMembers
+    .filter(member => {
+      // Filter out members who already have an RSVP
+      const hasRsvp = existingRsvpUserIds.value.includes(member.login)
+      if (hasRsvp) {
+        return false
+      }
 
-  const query = searchQuery.value.toLowerCase().trim()
+      // Filter by search query
+      if (!query) {
+        return true
+      }
 
-  return props.organizationMembers.filter(member => {
-    const isCurrentUser = member.id === props.currentUserId
-    const hasRsvped = props.rsvpList.some(rsvp => rsvp.user?.id === member.id)
-    const isAlreadyInvited = invitedMembers.value.some(invited => invited.id === member.id)
-    const memberName = (member.name || '').toLowerCase()
-    const memberLogin = (member.login || '').toLowerCase()
-
-    return !isCurrentUser &&
-           !hasRsvped &&
-           !isAlreadyInvited &&
-           (memberName.includes(query) || memberLogin.includes(query))
-  })
+      const matchesName = (member.name || '').toLowerCase().includes(query)
+      const matchesLogin = (member.login || '').toLowerCase().includes(query)
+      
+      return matchesName || matchesLogin
+    })
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
 })
 
 function inviteMember(member: Member) {
   router.post('/invite', {
-    github_id: member.id,
     github_username: member.login
   }, {
     preserveScroll: true,
@@ -177,7 +185,7 @@ function cancelInvite(member: Member) {
     preserveScroll: true,
     preserveState: true,
     onSuccess: () => {
-      invitedMembers.value = invitedMembers.value.filter(m => m.id !== member.id)
+      invitedMembers.value = invitedMembers.value.filter(m => m.login !== member.login)
     }
   })
 }

@@ -47,20 +47,39 @@ class HomeController extends Controller
 
             // Get organization members if user is part of Vehikl
             if ($user->github_organizations && collect($user->github_organizations)->contains('login', 'vehikl')) {
-                $organizationMembers = app(GithubOrganizationService::class)
+                $githubMembers = app(GithubOrganizationService::class)
                     ->getOrganizationMembers($user->github_token);
+
+                // Get all users from the database
+                $dbUsers = \App\Models\User::query()
+                    ->whereNotNull('github_username')
+                    ->select('id', 'name', 'avatar_url', 'github_username')
+                    ->get();
+
+                $dbUsers = $dbUsers->map(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'login' => $user->github_username ?? $user->name,  // Use name as login if no GitHub username
+                        'avatar_url' => $user->avatar_url,
+                    ];
+                })->toArray();
+
+                // Combine and deduplicate members based on GitHub username or name
+                $organizationMembers = collect($githubMembers)
+                    ->concat($dbUsers)
+                    ->filter(function ($member) {
+                        return !empty($member['login']) && !empty($member['name']);
+                    })
+                    ->unique('login')
+                    ->values()
+                    ->all();
             }
 
             // Get ride requests for next Friday
             $rideRequests = RideRequest::with(['user', 'helper'])
                 ->whereDate('lunch_date', $nextFriday->format('Y-m-d'))
                 ->get();
-
-            Log::info('Ride requests found:', [
-                'count' => $rideRequests->count(),
-                'date' => $nextFriday->format('Y-m-d'),
-                'requests' => $rideRequests->toArray()
-            ]);
 
             $rideRequests = $rideRequests->map(function ($request) {
                 return [
@@ -79,10 +98,6 @@ class HomeController extends Controller
                     ] : null,
                 ];
             });
-
-            Log::info('Mapped ride requests:', [
-                'requests' => $rideRequests->toArray()
-            ]);
         }
 
         // Get all RSVPs for next Friday
