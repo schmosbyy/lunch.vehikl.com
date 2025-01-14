@@ -36,7 +36,7 @@
       v-model="showOutOfTownModal"
       :user-email="user?.email"
     />
-      <OutOfTownModal
+      <CustomizeOrderModal
           v-model="showOrderModal"
           :user-email="user?.email"
       />
@@ -60,6 +60,7 @@ import OutOfTownModal from './Modals/OutOfTownModal.vue'
 import InviteModal from './Modals/InviteModal.vue'
 import RideRequestModal from './Modals/RideRequestModal.vue'
 import { router } from '@inertiajs/vue3'
+import CustomizeOrderModal from "./Modals/CustomizeOrderModal.vue";
 
 const props = defineProps({
   user: {

@@ -11,7 +11,7 @@
         <p v-if="showResendMessage" class="mt-2 text-sm text-[#e26700] animate-fade-out">
           A confirmation email has been sent to {{ user?.email }}
         </p>
-        <div class="mt-6 flex flex-wrap items-center gap-2">
+        <div class="mt-6 flex flex-wrap items-center gap-1">
             <Button
                 variant="secondary"
                 @click="$emit('show-order-modal')"
@@ -26,17 +26,6 @@
           >
             Resend Email
           </Button>
-
-          <form @submit.prevent="$emit('cancel-rsvp')" class="inline">
-            <Button
-              type="submit"
-              variant="secondary"
-              class="!text-red-600 !border-red-600 hover:!bg-red-50"
-              icon="close"
-            >
-             RSVP
-            </Button>
-          </form>
 
           <Button
             variant="secondary"
@@ -72,6 +61,16 @@
           >
             Challenges
           </Button>
+            <form @submit.prevent="$emit('cancel-rsvp')" class="inline">
+                <Button
+                    type="submit"
+                    variant="secondary"
+                    class="!text-red-600 !border-red-600 hover:!bg-red-50"
+                    icon="close"
+                >
+                    RSVP
+                </Button>
+            </form>
         </div>
       </div>
     </div>

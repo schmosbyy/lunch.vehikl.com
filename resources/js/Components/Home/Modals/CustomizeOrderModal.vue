@@ -7,8 +7,8 @@
     <template #header>
       <ModalHeader
         icon="home"
-        title="Out of Town Lunch Order"
-        subtitle="Let us know your lunch preferences while you're away!"
+        title="Customize RSVP Food Order"
+        subtitle="Let us know your lunch preferences!"
       />
     </template>
 
@@ -33,7 +33,7 @@
         class="w-full sm:w-auto"
         icon="home"
       >
-        Mark form as Submitted
+        Submit Form
       </Button>
     </div>
   </Modal>
