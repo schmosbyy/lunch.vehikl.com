@@ -12,8 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // Reset RSVP statuses every Friday at 5 PM
-        $schedule->command('rsvp:reset')
+        // Reset lunch data every Friday at 5 PM
+        $schedule->command('lunch:reset')
             ->weeklyOn(5, '17:00') // 5 = Friday, 17:00 = 5 PM
             ->timezone('America/Toronto');
     }
