@@ -106,7 +106,6 @@ interface Game {
   id: string;
   name: string;
   icon: string;
-  url: string;
 }
 
 const props = defineProps<{
@@ -150,7 +149,6 @@ const challengeToGame = (user: User, game: Game) => {
   router.post('/game-challenge', {
     challenged_id: user.id,
     game_type: game.id,
-    game_url: game.url
   }, {
     preserveScroll: true,
     preserveState: true,

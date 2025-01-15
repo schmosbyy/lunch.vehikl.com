@@ -68,16 +68,6 @@
               <p class="text-xs text-gray-500">Status: {{ challenge.status }}</p>
             </div>
           </div>
-          <Link
-            v-if="challenge.status === 'accepted'"
-            :href="challenge.game_url"
-            target="_blank"
-            variant="secondary"
-            size="sm"
-            class="!text-blue-700 !border-blue-700 hover:!bg-blue-50"
-          >
-            Play Now
-          </Link>
         </div>
       </div>
     </div>
@@ -93,7 +83,6 @@
 import { router } from '@inertiajs/vue3'
 import Avatar from '@/Components/UI/Avatar.vue'
 import Button from '@/Components/UI/Button.vue'
-import Link from '@/Components/UI/Link.vue'
 
 interface Challenger {
   avatar_url: string;
@@ -106,7 +95,6 @@ interface Challenge {
   challenged: Challenger;
   game_type: string;
   status: string;
-  game_url: string;
 }
 
 interface Challenges {

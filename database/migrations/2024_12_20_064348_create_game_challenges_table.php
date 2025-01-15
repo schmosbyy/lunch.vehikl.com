@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('rsvp_id')->constrained('rsvps')->onDelete('cascade');
             $table->string('game_type');
             $table->enum('status', ['pending', 'accepted', 'declined', 'completed'])->default('pending');
-            $table->string('game_url')->nullable();
+            $table->timestamp('accepted_at')->nullable();
             $table->timestamps();
 
             // Ensure a user can only have one active challenge with another user per RSVP and game type

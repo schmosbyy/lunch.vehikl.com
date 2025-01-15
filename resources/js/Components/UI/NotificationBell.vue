@@ -48,7 +48,7 @@
                 <span class="font-medium">{{ challenge.game_type }}</span>
               </p>
               <p class="text-xs text-gray-500 dark:text-gray-400">
-                {{ challenge.created_at }}
+                @ {{ new Date(challenge.created_at).toLocaleString() }}
               </p>
             </div>
           </div>

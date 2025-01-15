@@ -37,7 +37,6 @@ class GameChallengeNotification extends Mailable
                 'challenge' => $this->challenge,
                 'recipient' => $this->recipient,
                 'isChallenger' => $this->isChallenger,
-                'gameUrl' => $this->challenge->game_url,
             ],
         );
     }

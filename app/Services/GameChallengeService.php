@@ -31,7 +31,6 @@ class GameChallengeService
             'rsvp_id' => $challengedRsvp->id,
             'game_type' => $data['game_type'],
             'status' => 'pending',
-            'game_url' => $data['game_url'],
         ]);
 
         // Send notifications

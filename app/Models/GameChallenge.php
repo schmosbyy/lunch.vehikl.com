@@ -13,7 +13,7 @@ class GameChallenge extends Model
         'rsvp_id',
         'game_type',
         'status',
-        'game_url',
+        'accepted_at'
     ];
 
     protected $casts = [

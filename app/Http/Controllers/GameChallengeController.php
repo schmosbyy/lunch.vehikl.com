@@ -22,7 +22,6 @@ class GameChallengeController extends Controller
             $validated = $request->validate([
                 'challenged_id' => 'required|exists:users,id',
                 'game_type' => 'required|string',
-                'game_url' => 'required|url',
             ]);
 
             $this->gameChallengeService->createChallenge(Auth::user(), $validated);

@@ -19,13 +19,13 @@
             >
                 Customize Order
             </Button>
-          <Button
+          <!-- <Button
             variant="secondary"
             @click="$emit('resend-email')"
             icon="mail"
           >
             Resend Email
-          </Button>
+          </Button> -->
 
           <Button
             variant="secondary"
