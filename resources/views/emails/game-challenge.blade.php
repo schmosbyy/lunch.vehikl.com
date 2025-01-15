@@ -9,10 +9,6 @@ You have challenged **{{ $challenge->challenged->name }}** to a game of **{{ $ch
 
 This challenge is for the upcoming Friday lunch on **{{ $challenge->rsvp->lunch_date }}**.
 
-@component('mail::button', ['url' => $gameUrl])
-Play {{ $challenge->game_type }}
-@endcomponent
-
 @if (!$isChallenger)
 You can accept or decline this challenge when you see {{ $challenge->challenger->name }} at lunch.
 @else
@@ -21,4 +17,4 @@ You can accept or decline this challenge when you see {{ $challenge->challenger-
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent 
+@endcomponent
