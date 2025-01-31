@@ -20,13 +20,13 @@ return [
         [
             'id' => 'tictactoe',
             'name' => 'Tic Tac Toe',
-            'icon' => '/icons/tictactoe.svg',
+            'icon' => 'https://upload.wikimedia.org/wikipedia/commons/3/32/Tic_tac_toe.svg',
             'url' => 'https://playtictactoe.org'
         ],
         [
             'id' => 'connect4',
             'name' => 'Connect Four',
-            'icon' => '/icons/connect4.svg',
+            'icon' => 'https://upload.wikimedia.org/wikipedia/en/a/a4/Connect_four_game.svg',
             'url' => 'https://connect-four.org'
         ]
     ],
@@ -44,4 +44,4 @@ return [
         'default_status' => 'pending',
         'max_active_challenges' => 5, // Maximum number of active challenges per user
     ],
-]; 
+];
