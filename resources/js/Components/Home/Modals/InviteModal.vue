@@ -129,7 +129,6 @@ const props = defineProps<{
   rsvpList: Rsvp[]
   currentUserId: number
 }>()
-
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
@@ -143,7 +142,7 @@ const existingRsvpUserIds = computed(() => {
 
 const filteredMembers = computed(() => {
   const query = searchQuery.value.toLowerCase()
-  
+
   return props.organizationMembers
     .filter(member => {
       // Filter out members who already have an RSVP
@@ -159,7 +158,7 @@ const filteredMembers = computed(() => {
 
       const matchesName = (member.name || '').toLowerCase().includes(query)
       const matchesLogin = (member.login || '').toLowerCase().includes(query)
-      
+
       return matchesName || matchesLogin
     })
     .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
@@ -167,7 +166,8 @@ const filteredMembers = computed(() => {
 
 function inviteMember(member: Member) {
   router.post('/invite', {
-    github_nickname: member.login
+      github_id: member.id,
+      github_nickname: member.login
   }, {
     preserveScroll: true,
     preserveState: true,
