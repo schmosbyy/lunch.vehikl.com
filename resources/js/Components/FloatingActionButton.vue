@@ -40,15 +40,12 @@
         <!-- Form Content -->
         <div class="px-6 py-4">
           <div class="w-full overflow-hidden rounded-xl border border-gray-100 shadow-sm" style="height: 80vh;">
-            <iframe 
+            <iframe
               ref="formIframe"
               src="https://docs.google.com/forms/d/e/1FAIpQLSdZQCkmwCXexF_F-7r54F05HU8VcHea7OLppKlThWt-KdMTmA/viewform?embedded=true"
               class="w-full h-full"
               style="width: 100%; min-width: 100%;"
               @load="handleIframeLoad"
-              frameborder="0" 
-              marginheight="0" 
-              marginwidth="0"
             >
               Loading...
             </iframe>
@@ -69,11 +66,6 @@ const isHovered = ref(false)
 const showModal = ref(false)
 const formIframe = ref<HTMLIFrameElement | null>(null)
 let formLoaded = false
-
-const closeModal = () => {
-  showModal.value = false
-  formLoaded = false
-}
 
 const handleIframeLoad = () => {
   if (!formLoaded) {

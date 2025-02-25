@@ -68,7 +68,13 @@
                     </div>
                   </div>
                 </div>
-
+                  <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+                      <Button
+                          @click="$emit('toggle-form-builder')"
+                          class="w-full text-left flex items-center space-x-2 text-base text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white !border-0">
+                          Kelly's Korner
+                      </Button >
+                  </div>
                 <!-- Dark Mode Toggle -->
                 <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
                   <Button
@@ -202,4 +208,7 @@ const logout = () => {
 const route = (name: string) => {
   return '/home'
 }
+defineEmits([
+    'toggle-form-builder'
+])
 </script>

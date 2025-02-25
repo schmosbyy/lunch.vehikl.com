@@ -1,23 +1,20 @@
 <?php
 
 use App\Http\Controllers\Auth\GithubController;
+use App\Http\Controllers\FormsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RsvpController;
 use App\Http\Controllers\GameChallengeController;
 use App\Http\Controllers\RideRequestController;
-use App\Models\GameChallenge;
-use App\Models\RideRequest;
-use App\Models\Rsvp;
-use Carbon\Carbon;
+use App\Http\Controllers\SlackController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Log;
-use Inertia\Inertia;
-use App\Services\GithubOrganizationService;
 use App\Http\Controllers\InviteController;
 
 Route::redirect('/', '/home');
 
 Route::get('/home', [HomeController::class,'index'])->name('home');
+
+Route::get('/slack/message', [SlackController::class, 'sendMessage']);//ToDO : add in auth middleware
 
 // Auth Routes
 Route::controller(GithubController::class)->group(function () {
@@ -29,6 +26,7 @@ Route::controller(GithubController::class)->group(function () {
 // RSVP Routes
 Route::middleware(['auth'])->group(function () {
     Route::post('/rsvp', [RsvpController::class, 'store'])->name('rsvp.store');
+    Route::post('/forms-update',[FormsController::class,'saveURLS']);
     Route::post('/rsvp/resend', [RsvpController::class, 'resend'])->name('rsvp.resend');
     Route::post('/rsvp/cancel', [RsvpController::class, 'destroy'])->name('rsvp.cancel');
     Route::post('/rsvp/out-of-town', [RsvpController::class, 'markOutOfTown'])->name('rsvp.out-of-town');
