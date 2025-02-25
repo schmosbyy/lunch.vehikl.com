@@ -1,7 +1,9 @@
 <template>
-  <AppLayout v-slot="{ showGameChallenges, toggleGameChallenges }">
+  <AppLayout
+      @toggle-form-builder="showFormBuilder=!showFormBuilder"
+      v-slot="{ showGameChallenges, toggleGameChallenges }">
     <div v-if="showGameChallenges" class="mb-6">
-      <Button 
+      <Button
         @click="toggleGameChallenges"
         variant="secondary"
         icon="arrow-left"
@@ -13,11 +15,12 @@
     <div class="bg-white dark:bg-gray-800 overflow-visible shadow-sm sm:rounded-xl border border-gray-200 dark:border-gray-700">
       <div class="p-8 bg-white dark:bg-gray-800 overflow-visible">
         <div v-if="page.props.isLoggedIn" class="overflow-visible">
+          <FormBuilderModal  v-model="showFormBuilder"/>
           <template v-if="!showGameChallenges">
             <div class="space-y-8 overflow-visible">
               <WelcomeSection :user="page.props.user" />
-              
-              <RsvpCard 
+
+              <RsvpCard
                 :user="page.props.user"
                 :next-friday="page.props.nextFriday"
                 :rsvp-list="page.props.rsvpList"
@@ -33,14 +36,14 @@
                 :current-user-id="page.props.user?.id"
               />
 
-              <RsvpList 
+              <RsvpList
                 :rsvp-list="page.props.rsvpList"
                 :current-user-id="page.props.user?.id"
                 :games="page.props.games"
               />
             </div>
           </template>
-          
+
           <GameChallenges v-else
             :challenges="page.props.challenges"
           />
@@ -48,7 +51,7 @@
         <div v-else class="text-center py-16">
           <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Friday Lunch</h2>
           <p class="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto">Join us for our weekly team lunch and gaming sessions. Connect with your colleagues and have fun!</p>
-          <Button 
+          <Button
             tag="a"
             href="/auth/github"
             variant="primary"
@@ -75,6 +78,9 @@ import GameChallenges from '@/Components/Home/GameChallenges.vue'
 import RideRequests from '@/Components/Home/RideRequests.vue'
 import Button from '@/Components/UI/Button.vue'
 import { usePage } from '@inertiajs/vue3'
+import {ref} from "vue";
+import FormBuilderModal from "../Components/Home/Modals/FormBuilderModal.vue";
 
 const page = usePage()
-</script> 
+const showFormBuilder = ref(false)
+</script>
