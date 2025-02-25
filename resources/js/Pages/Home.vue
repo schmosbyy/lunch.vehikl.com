@@ -15,7 +15,16 @@
     <div class="bg-white dark:bg-gray-800 overflow-visible shadow-sm sm:rounded-xl border border-gray-200 dark:border-gray-700">
       <div class="p-8 bg-white dark:bg-gray-800 overflow-visible">
         <div v-if="page.props.isLoggedIn" class="overflow-visible">
-          <FormBuilderModal  v-model="showFormBuilder"/>
+          <FormBuilderModal
+              @form-update-success="handleSuccessToast"
+              v-model="showFormBuilder"/>
+            <Alert
+                v-if="showSuccessToast"
+                variant="success"
+                class="mb-4"
+            >
+                Form Urls Updated Successfully
+            </Alert>
           <template v-if="!showGameChallenges">
             <div class="space-y-8 overflow-visible">
               <WelcomeSection :user="page.props.user" />
@@ -80,7 +89,15 @@ import Button from '@/Components/UI/Button.vue'
 import { usePage } from '@inertiajs/vue3'
 import {ref} from "vue";
 import FormBuilderModal from "../Components/Home/Modals/FormBuilderModal.vue";
+import Alert from "../Components/UI/Alert.vue";
 
 const page = usePage()
 const showFormBuilder = ref(false)
+const showSuccessToast = ref(false)
+const handleSuccessToast = () => {
+    showSuccessToast.value=true;
+    setTimeout(() => {
+        showSuccessToast.value = false;
+    }, 4000);
+}
 </script>
