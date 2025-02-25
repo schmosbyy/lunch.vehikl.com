@@ -15,7 +15,6 @@ class FormsController extends Controller
             'formUrls.outoftown-orders' => 'required',
             'formUrls.nextweek-votes' => 'nullable',
         ]);
-        dd($validated);
         $form->update($validated);
 
         return response()->json("Success", 201);

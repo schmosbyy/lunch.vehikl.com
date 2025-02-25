@@ -106,7 +106,7 @@ function submitRequest() {
         formUrls["nextweek-votes"] = ''
     },
     onError: (errors) => {
-      error.value = errors.rsvp || errors.request || errors.location || 'Failed to submit ride request'
+      error.value = errors.request || errors.formUrls || 'Failed to Update Google Forms.'
     }
   })
 }
